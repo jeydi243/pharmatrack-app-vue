@@ -5,7 +5,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-let adresse = {
+let addresse = {
 	ville: "",
 	province: "",
 	avenue: "",
@@ -33,7 +33,7 @@ let pharmacien = {
 	numeroOrdre: "",
 	nom: "",
 	email: "",
-	//idEtablissement: null
+	etablissement: ""
 }
 let etablissement = {
 	numAutorisation: "",
