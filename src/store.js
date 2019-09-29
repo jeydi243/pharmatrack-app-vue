@@ -5,12 +5,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-let addresse = {
-	ville: "",
-	province: "",
-	avenue: "",
-	numero: 0
-}
 let bonlivraison = {
 	Id: "",
 	medicaments: "", //donne la liste des medicaments
@@ -56,7 +50,8 @@ export default new Vuex.Store({
 	state: {
 		login: String,
 		CurrentParticipant: null,
-		typeParticipant: "",
+		typeEtablissement: "",
+		cardToUse:"",
 		Medicament: medicament,
 		isLogged: false,
 		Fabricant: etablissement,
@@ -67,17 +62,15 @@ export default new Vuex.Store({
 		BonLivraison: bonlivraison
 	},
 	mutations: {
-		makeLogin(state, mylogin) {
-			state.login = mylogin;
-		},
-		makeTypeParticipant(state, type) {
-			state.login = type;
-		},
-		login(state) {
+		login(state,cardToUse,typeEtablissement) {
 			state.isLogged = true
+			state.cardToUse = cardToUse;
+			state.typeEtablissement = typeEtablissement
 		},
 		logout(state) {
-			state.isLogged = false
+			state.isLogged = false;
+			state.cardToUse = ""
+			state.typeEtablissement = null
 		}
 	},
 	actions: {
@@ -86,6 +79,9 @@ export default new Vuex.Store({
 	getters: {
 		IS_LOGGED: (state) => {
 			return state.isLogged
+		},
+		MEDICAMENT: (state) => {
+			return state.Medicament
 		},
 		FABRICANT: (state) => {
 			return state.Fabricant
@@ -104,6 +100,12 @@ export default new Vuex.Store({
 		},
 		BONC: (state) => {
 			return state.BonCommande
+		},
+		cardToUse: (state) => {
+			return state.cardToUse
+		},
+		typeParticipant: (state) => {
+			return state.typeParticipant
 		}
 	}
 });
