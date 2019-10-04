@@ -5,6 +5,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
+
 let bonlivraison = {
 	Id: "",
 	medicaments: "", //donne la liste des medicaments
@@ -19,7 +20,7 @@ let itemlist={
 let boncommande = {
 	Id: "",
 	status: "",
-	itemlist: itemlist, //seulement du texte qui decrit le nom du medicament
+	itemlist: [], //seulement du texte qui decrit le nom du medicament
 	emetteur:"", //l'id de l'emetteur
 	destinataire: "" //l'id du destinataire
 }
@@ -28,6 +29,13 @@ let pharmacien = {
 	nom: "",
 	email: "",
 	etablissement: ""
+}
+let currentUser = {
+	numAutorisation:"",
+	typeEtablissement:"",
+	cardToUse:"",
+	login:"",
+	pass:""
 }
 let etablissement = {
 	numAutorisation: "",
@@ -41,19 +49,15 @@ let medicament = {
 	code: "",
 	nom: "",
 	description: "",
-	dateFab: null,
-	dateExp: null,
-	proprio: "" //doit correspondre a une identité d'un fabricant
+	dateFab: "",
+	dateExp: "",
+	prixUnitaire: "" //doit correspondre a une identité d'un fabricant
 }
 
 export default new Vuex.Store({
 	state: {
-		login: String,
-		CurrentParticipant: null,
-		typeEtablissement: "",
-		cardToUse:"",
+		currentUser:currentUser,
 		Medicament: medicament,
-		isLogged: false,
 		Fabricant: etablissement,
 		Grossiste: etablissement,
 		Pharmacie: etablissement,
@@ -62,24 +66,28 @@ export default new Vuex.Store({
 		BonLivraison: bonlivraison
 	},
 	mutations: {
-		login(state,cardToUse,typeEtablissement) {
-			state.isLogged = true
-			state.cardToUse = cardToUse;
-			state.typeEtablissement = typeEtablissement
+		login(state,obj) {
+			state.currentUser.typeEtablissement = obj.typeEtablissement
+			state.currentUser.cardToUse = obj.cardToUse;
+			state.currentUser.numAutorisation = obj.numAutorisation
+			state.currentUser.login = obj.login
+			state.currentUser.pass = obj.pass
+		},
+		loginAdmin(state,cardToUse){
+			state.currentUser.cardToUse = cardToUse;
 		},
 		logout(state) {
-			state.isLogged = false;
-			state.cardToUse = ""
-			state.typeEtablissement = null
+			state.currentUser.cardToUse = "";
+			state.currentUser.typeEtablissement = ""
+			state.currentUser.numAutorisation = ""
+			state.currentUser.login = ""
+			state.currentUser.pass = ""
 		}
 	},
 	actions: {
 
 	},
 	getters: {
-		IS_LOGGED: (state) => {
-			return state.isLogged
-		},
 		MEDICAMENT: (state) => {
 			return state.Medicament
 		},
@@ -101,11 +109,17 @@ export default new Vuex.Store({
 		BONC: (state) => {
 			return state.BonCommande
 		},
-		cardToUse: (state) => {
-			return state.cardToUse
+		CARDTOUSE: (state) => {
+			return state.currentUser.cardToUse
 		},
-		typeParticipant: (state) => {
-			return state.typeParticipant
+		currentUser: (state) => {
+			return state.currentUser
+		},
+		a: (state) => {
+			return state.currentUser.numAutorisation
+		},
+		b: (state) => {
+			return state.currentUser.typeEtablissement
 		}
 	}
 });
